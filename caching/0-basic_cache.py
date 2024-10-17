@@ -22,7 +22,7 @@ class BasicCache(BaseCaching):
         If either key or item is None, do nothing.
         '''
         if key is not None and item is not None:
-            self.cache_data[key] = item  
+            self.cache_data[key] = item
             # Assign the item value to the dictionnary key
         else:
             return  # Do nothing if key or item is None
