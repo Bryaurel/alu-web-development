@@ -7,7 +7,6 @@ and is a caching system
 from base_caching import BaseCaching
 
 
-
 class FIFOCache(BaseCaching):
     '''
     FIFOCache class implements a FIFO caching system where the oldest
@@ -34,7 +33,7 @@ class FIFOCache(BaseCaching):
                 self.order.append(key)  # Keep track of the order
 
             self.cache_data[key] = item  # Insert or update the item in cache
-            
+
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
                 # FIFO: Remove the first inserted item
                 first_key = self.order.pop(0)  # Get and remove the first key
@@ -49,4 +48,3 @@ class FIFOCache(BaseCaching):
             return None
 
         return self.cache_data.get(key)  # Return the cached item for the key
-        
