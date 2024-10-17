@@ -27,14 +27,15 @@ class LIFOCache(BaseCaching):
         discard the last item added.
         '''
         if key is not None and item is not None:
-            self.cache_data[key] = item  # Insert or update the item in cache
-            self.last_key = key  # Update the last inserted key
-
-            if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-                # LIFO: Remove the last inserted item
+            if len(self.cache_data) > BaseCaching.MAX_ITEMS and key not in self.cache_data:
+                # LIFO: Remove the last inserted item when the cache is full
                 del self.cache_data[self.last_key]
                 print(f"DISCARD: {self.last_key}")
-                self.last_key = None  # Reset the last key
+                del self.cache_data[self.last_key]
+            
+            # Insert or update the item in the cache
+            self.cache_data[key] = item
+            self.last_key = key  # Update the last inserted key
 
     def get(self, key: str) -> any:
         '''
