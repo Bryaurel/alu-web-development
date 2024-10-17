@@ -37,7 +37,7 @@ class BasicCache(BaseCaching):
         The value associated with the key,
         or None if the key is None or not in the cache.
         '''
-        if key is None or key not in self.cache:
+        if key is None or key not in self.cache_data:
             return None  # Return None if key is None or doesn't exist in cache
 
         return self.cache_data.get(key)  # Return the cached item for the key
