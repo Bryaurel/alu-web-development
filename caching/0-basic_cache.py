@@ -6,7 +6,7 @@ and implements a basic caching system with no limit.
 
 from base_caching import BaseCaching
 
-class BaseCaching(BaseCaching):
+class BaseCache(BaseCaching):
     '''
     This caching system doesn't have limit
     '''
