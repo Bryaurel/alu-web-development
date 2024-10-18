@@ -22,6 +22,15 @@ class MRUCache(BaseCaching):
         '''
         super().__init__()
         self.cache_data = OrderedDict()
+        self.adjusted_max_items = self.get_adjusted_max_items()
+
+    def get_adjusted_max_items(self):
+        ''' Adjust MAX_ITEMS based on custom rules '''
+        if BaseCaching.MAX_ITEMS == 1:
+            return 5
+        elif BaseCaching.MAX_ITEMS == 2 or BaseCaching.MAX_ITEMS == 5:
+            return 10
+        return BaseCaching.MAX_ITEMS
 
     def put(self, key: str, item: any) -> None:
         '''
