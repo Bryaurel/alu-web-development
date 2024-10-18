@@ -23,7 +23,7 @@ class LRUCache(BaseCaching):
         super().__init__()
         self.cache_data = OrderedDict()
 
-    def put (self, key: str, item: any) -> None:
+    def put(self, key: str, item: any) -> None:
         '''
         Add the item to the cache using the given key.
         If the cache exceeds the MAX_ITEMS limit,
@@ -37,7 +37,7 @@ class LRUCache(BaseCaching):
         '''
         if key in self.cache_data:
             self.cache_data.move_to_end(key)
-        
+
         # Add the item to the cache
         self.cache_data[key] = item
 
