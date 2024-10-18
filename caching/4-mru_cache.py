@@ -31,14 +31,15 @@ class MRUCache(BaseCaching):
         '''
         if key is None or item is None:
             return
-        # If key already exists, update its value and move it to the end (mru)
+
+        # If key already exists, update its value and move it to the end (most recently used)
         if key in self.cache_data:
             self.cache_data.move_to_end(key)
 
         # Add the item to the cache
         self.cache_data[key] = item
 
-        #If cache exceeds max limit, remove the MRU item
+        # If cache exceeds max limit, remove the MRU item
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
             # Remove the last inserted item (the MRU one)
             discarded_key, _ = self.cache_data.popitem(last=True)
