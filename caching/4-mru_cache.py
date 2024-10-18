@@ -41,8 +41,8 @@ class MRUCache(BaseCaching):
 
         # If cache exceeds max limit, remove the MRU item
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            # Remove the last inserted item (the MRU one)
-            discarded_key, _ = self.cache_data.popitem(last=True)
+            # Remove the last used item (the MRU one)
+            discarded_key, _ = self.cache_data.popitem(last=False)  # Remove the first inserted item
             print(f"DISCARD: {discarded_key}")
 
     def get(self, key: str) -> any:
