@@ -31,10 +31,7 @@ class MRUCache(BaseCaching):
         '''
         if key is None or item is None:
             return
-        '''
-        If key already exists, update its value
-        and move it to the end (most recently used)
-        '''
+        # If key already exists, update its value and move it to the end (mru)
         if key in self.cache_data:
             self.cache_data.move_to_end(key)
 
