@@ -30,7 +30,7 @@ class MRUCache(BaseCaching):
         if key is None or item is None:
             return
 
-        # If key already exists, update its value and mark it as most recently used
+        # If key already exists, update its value and mark it as mru
         if key in self.cache_data:
             self.usage_order.remove(key)
 
