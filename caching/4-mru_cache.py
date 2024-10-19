@@ -5,7 +5,6 @@ and is a caching system
 '''
 
 from base_caching import BaseCaching
-from collections import OrderedDict
 
 
 class MRUCache(BaseCaching):
@@ -18,21 +17,11 @@ class MRUCache(BaseCaching):
     def __init__(self):
         '''
         Initialize the cache and call the parent class initializer.
-        Use OrderedDict to maintain insertion order and allow MRU tracking.
         '''
         super().__init__()
-        self.cache_data = OrderedDict()
-        self.adjusted_max_items = self.get_adjusted_max_items()
+        self.usage_order = []  # List to track access order
 
-    def get_adjusted_max_items(self):
-        ''' Adjust MAX_ITEMS based on custom rules '''
-        if BaseCaching.MAX_ITEMS == 1:
-            return 5
-        elif BaseCaching.MAX_ITEMS == 2 or BaseCaching.MAX_ITEMS == 5:
-            return 10
-        return BaseCaching.MAX_ITEMS
-
-    def put(self, key: str, item: any) -> None:
+    def put(self, key, item):
         '''
         Add the item to the cache using the given key.
         If the cache exceeds the MAX_ITEMS limit,
@@ -41,26 +30,30 @@ class MRUCache(BaseCaching):
         if key is None or item is None:
             return
 
-        # If key already exists, update its value and move it to the end (most recently used)
+        # If key already exists, update its value and mark it as most recently used
         if key in self.cache_data:
-            self.cache_data.move_to_end(key)
+            self.usage_order.remove(key)
 
         # Add the item to the cache
         self.cache_data[key] = item
+        self.usage_order.append(key)
 
         # If cache exceeds max limit, remove the MRU item
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            discarded_key, _ = self.cache_data.popitem(last=True)  # Remove the most recently used item
-            print(f"DISCARD: {discarded_key}")
+            # Remove the last accessed (most recently used) item
+            mru_key = self.usage_order.pop(-1)
+            del self.cache_data[mru_key]
+            print(f"DISCARD: {mru_key}")
 
-    def get(self, key: str) -> any:
+    def get(self, key):
         '''
         Retrieve the value from the cache for the given key.
-        Move the key to the end to mark it as most recently used.
+        Mark the key as most recently used.
         '''
         if key is None or key not in self.cache_data:
             return None
 
         # Move the key to the end to mark it as most recently used
-        self.cache_data.move_to_end(key)
-        return self.cache_data.get(key)
+        self.usage_order.remove(key)
+        self.usage_order.append(key)
+        return self.cache_data[key]
