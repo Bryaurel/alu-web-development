@@ -1,6 +1,6 @@
 # Simple API
 
-Simple HTTP API for playing with `User` model.
+Simple HTTP API for playing with the `User` model.
 
 
 ## Files
