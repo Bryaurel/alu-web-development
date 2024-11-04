@@ -13,10 +13,13 @@ app = Flask(__name__)
 
 app.url_map.strict_slashes = False
 
+
 @app.route('/')
 def hello_world():
     """Hello world endpoint."""
-    return jsonify({"message": "Bienvenue"})  # Updated to match the task requirement
+    return jsonify({"message": "Bienvenue"})
+    # Updated to match the task requirement
+
 
 @app.route('/users', methods=['POST'])
 def register_user():
@@ -36,6 +39,7 @@ def register_user():
     user = AUTH.register_user(email, password)
     return jsonify({"email": user.email, "message": "User created"}), 201
 
+
 @app.route('/sessions', methods=['POST'])
 def login():
     """Login."""
@@ -45,7 +49,7 @@ def login():
 
     email = data.get("email")
     password = data.get("password")
-    
+
     if AUTH.valid_login(email, password):
         session_id = AUTH.create_session(email)
         if session_id:
@@ -56,6 +60,7 @@ def login():
             response.set_cookie('session_id', session_id)
             return response
     return jsonify({"error": "Invalid credentials"}), 401
+
 
 @app.route('/sessions', methods=['DELETE'])
 def logout():
@@ -68,6 +73,7 @@ def logout():
             return redirect('/')
     return jsonify({"error": "Unauthorized"}), 403
 
+
 @app.route('/profile', methods=['GET'])
 def profile():
     """Get profile."""
@@ -77,6 +83,7 @@ def profile():
         if user:
             return jsonify({"email": user.email})
     return jsonify({"error": "Unauthorized"}), 403
+
 
 @app.route('/reset_password', methods=['POST'])
 def get_reset_password_token():
@@ -91,6 +98,7 @@ def get_reset_password_token():
         return jsonify({"email": email, "reset_token": token})
     except ValueError:
         return jsonify({"error": "Invalid email"}), 403
+
 
 @app.route('/reset_password', methods=['PUT'])
 def update_password():
