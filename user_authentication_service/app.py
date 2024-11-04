@@ -96,7 +96,10 @@ def get_reset_password_token():
 def update_password():
     """Update password."""
     data = request.json  # Get the JSON data
-    if not data or 'email' not in data or 'reset_token' not in data or 'new_password' not in data:
+    if not data or \
+       'email' not in data or \
+       'reset_token' not in data or \
+       'new_password' not in data:
         return jsonify({"error": "Missing required fields"}), 400
 
     email = data.get("email")
@@ -107,6 +110,7 @@ def update_password():
         return jsonify({"email": email, "message": "Password updated"})
     except ValueError:
         return jsonify({"error": "Invalid token"}), 403
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
