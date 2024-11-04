@@ -9,10 +9,12 @@ app = Flask(__name__)
 
 app.url_map.strict_slashes = False
 
+
 @app.route('/')
 def hello_world():
     """hello world"""
     return jsonify({"message": "Hello World"})
+
 
 @app.route('/users', methods=['POST'])
 def register_user():
@@ -22,6 +24,7 @@ def register_user():
     password = data.get("password")
     user = AUTH.register_user(email, password)
     return jsonify({"email": user.email, "message": "user created"})
+
 
 @app.route('/sessions', methods=['POST'])
 def login():
@@ -40,6 +43,7 @@ def login():
             return response
     abort(401)
 
+
 @app.route('/sessions', methods=['DELETE'])
 def logout():
     """logout"""
@@ -51,6 +55,7 @@ def logout():
             return redirect('/')
     abort(403)
 
+
 @app.route('/profile', methods=['GET'])
 def profile():
     """get profile"""
@@ -60,6 +65,7 @@ def profile():
         if user:
             return jsonify({"email": user.email})
     abort(403)
+
 
 @app.route('/reset_password', methods=['POST'])
 def get_reset_password_token():
@@ -71,6 +77,7 @@ def get_reset_password_token():
         return jsonify({"email": email, "reset_token": token})
     except ValueError:
         abort(403)
+
 
 @app.route('/reset_password', methods=['PUT'])
 def update_password():
@@ -84,6 +91,7 @@ def update_password():
         return jsonify({"email": email, "message": "Password updated"})
     except ValueError:
         abort(403)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
